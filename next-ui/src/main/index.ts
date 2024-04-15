@@ -86,6 +86,16 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    const { exec } = require('child_process')
+    exec('taskkill /f /t /im app.exe', (err, stdout, stderr) => {
+      if (err) {
+        console.log(err)
+        return
+      }
+      console.log(`stdout: ${stdout}`)
+      console.log(`stderr: ${stderr}`)
+    })
+
     app.quit()
   }
 })
