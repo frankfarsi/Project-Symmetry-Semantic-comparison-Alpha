@@ -40,9 +40,14 @@ const TranslationSection = () => {
 		console.log(data);
 	}, []);
 
+	const callApiTest=()=>{
+		console.log('put api call here')
+	}
+
 	return (
 		<section className="bg-white mt-6 p-2 rounded-xl shadow-md h-full">
 			<Form {...form}>
+				<button onClick={()=>callApiTest()}>Test Api call</button>
 				<form onSubmit={form.handleSubmit(onSubmit)}>
 
 					<div className="flex items-center justify-between">
