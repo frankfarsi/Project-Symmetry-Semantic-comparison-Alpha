@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building symmetry 🚀
 on: [push]
 jobs:
   Test_API_endpoints:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,5 +28,11 @@ jobs:
       
       - name: Build with PyInstaller
         run: pyinstaller -F api/flaskr/app.py
+      
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: dist/ 
 
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
