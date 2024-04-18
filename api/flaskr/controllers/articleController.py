@@ -14,7 +14,6 @@ def get_article():
 @article_route.route("/originalArticle",methods=['POST'])
 def get_original_article():
     article = ArticleModel(request.get_json().get('url'),None)
-    print(article)
     return articleService.get_original_article(article)
 
 
