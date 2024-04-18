@@ -13,6 +13,12 @@ def get_article():
 
 @article_route.route("/originalArticle",methods=['POST'])
 def get_original_article():
+    """
+    Retrieves the original article based on the provided URL.
+
+    Returns:
+        The original article.
+    """
     article = ArticleModel(request.get_json().get('url'),None)
     return articleService.get_original_article(article)
 
