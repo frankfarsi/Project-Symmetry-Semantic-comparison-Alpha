@@ -25,7 +25,7 @@ def get_original_article():
     return articleService.get_original_article(article)
 
 
-@article_route.route("/targetArticle", methods=["POST"])
+@article_route.route("/translate", methods=["POST"])
 def get_target_article():
     article = ArticleModel(request.get_json().get("url"), None, None)
     return articleService.fetch_target_article(article, "en")
