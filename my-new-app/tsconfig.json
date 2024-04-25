@@ -10,16 +10,6 @@
     "baseUrl": ".",
     "outDir": "dist",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "jsx": "react-jsx",
-    "strict": true,
-    "paths": {
-      "@*": [
-        "./src/renderer/src*"
-      ]
-    },
-  },
-  "include": ["src", "electron"]
+    "resolveJsonModule": true
+  }
 }

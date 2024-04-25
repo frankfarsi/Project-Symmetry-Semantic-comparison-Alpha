@@ -7,10 +7,10 @@ import * as path from 'path'
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src/renderer/src"),
+      "@": path.resolve(__dirname, "src", "renderer", "src"),
     }
   },
-  base: './',
+  base: './src',
   root: path.join(__dirname, 'src', 'renderer'),
   plugins: [react()],
   server: {
