@@ -1,4 +1,4 @@
-import {TranslationTool} from "@/models/enums/TranslationTool.ts";
+import { TranslationTool } from '@/models/enums/TranslationTool'
 
 export type TranslationFormType = {
 	translationTool: TranslationTool;
