@@ -9,14 +9,9 @@ translate_route = Blueprint("translate_route", __name__, url_prefix="/translate"
 
 
 # TODO:make a method to put the initialize request object
-@translate_route.route("/targetArticleLanguages", methods=["POST"])
+@translate_route.route("/sourceArticle", methods=["POST"])
 def get_list_of_target_article_languages():
-    translateArticleRequestObject = RequestModel(
-        request.get_json().get("sourceArticleUrl"),
-        request.get_json().get("targetLanguage"),
-        request.get_json().get("translationTool"),
-        request.get_json().get("deepLApiKey"),
-    )
+    translateArticleRequestObject = initialize_request_object(request)
     if translateArticleRequestObject.get_targetArticleLanguage() == "":
         return make_response(
             {"sourceArticle": "this is the article", "translationTool": ["en", "fr"]},
@@ -29,16 +24,11 @@ def get_list_of_target_article_languages():
 
 @translate_route.route("/settingsCheck", methods=["POST"])
 def get_source_article():
-    translateArticleRequestObject = RequestModel(
-        request.get_json().get("sourceArticleUrl"),
-        request.get_json().get("targetLanguage"),
-        request.get_json().get("translationTool"),
-        request.get_json().get("deepLApiKey"),
-    )
+    initialized_request_object = initialize_request_object(request)
     return make_response({"message": "Settings are valid"}, 200)
 
 
-def initialize_request_object(requestObj):
+def initialize_request_object(requestObj) -> RequestModel:
     initialized_request_object = RequestModel(
         requestObj.get_json().get("sourceArticleUrl"),
         requestObj.get_json().get("targetLanguage"),
