@@ -12,10 +12,6 @@
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
-  "author": {
-    "name": "Aman Harwara",
-    "email": "amanharwara@protonmail.com"
-  },
   "license": "MIT",
   "devDependencies": {
     "@electron-forge/cli": "^6.3.0",
