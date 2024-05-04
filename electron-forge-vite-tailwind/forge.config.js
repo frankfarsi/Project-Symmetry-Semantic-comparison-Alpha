@@ -1,4 +1,18 @@
 module.exports = {
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'frankfarsi',
+          name: 'project-symmetry-semantic-comparison-alpha'
+        },
+        prerelease: false,
+        draft: true
+      }
+    }
+  ],
+
   packagerConfig: {
     extraResource: [
       '../api/flaskr/dist/pyapp'
