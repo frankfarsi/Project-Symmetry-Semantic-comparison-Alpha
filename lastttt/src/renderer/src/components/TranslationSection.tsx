@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { ChevronRight, Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
@@ -6,7 +6,6 @@ import { TranslationFormType } from '@/models/TranslationFormType'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { TranslationTool } from '@/models/enums/TranslationTool'
 import { Textarea } from '@/components/ui/textarea'
 import { Separator } from '@/components/ui/separator'
 import { AppConstants } from '@/constants/AppContants'
@@ -20,10 +19,12 @@ const TRANSLATION_LANGUAGES = [
 ]
 
 const TranslationSection = () => {
+  const [availableTranslationLanguages, setAvailableTranslationLanguages] = useState<{
+    value: string,
+    label: string
+  }[]>([])
   const form = useForm<TranslationFormType>({
     defaultValues: {
-      apiKey: '',
-      translationTool: TranslationTool.GOOGLE,
       sourceArticleUrl: '',
       targetArticleLanguage: 'English',
       sourceArticleContent: '',
@@ -31,7 +32,6 @@ const TranslationSection = () => {
     }
   })
   const {
-    register,
     handleSubmit,
     formState: { errors },
     watch
@@ -63,12 +63,12 @@ const TranslationSection = () => {
   }
 
   return (
-    <section className="bg-white mt-6 p-2 rounded-xl shadow-md h-full">
+    <section className="bg-white mt-6 rounded-xl shadow-md">
       <Form {...form}>
         {/*<button onClick={() => callApiTest()}>Test Api call</button>*/}
         <form onSubmit={form.handleSubmit(onSubmit)}>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between p-4">
             <div className="inline-flex items-center gap-x-2">
               <Info size={16} />
               <span className="text-zinc-700 text-xs">
@@ -82,51 +82,7 @@ const TranslationSection = () => {
             </div>
           </div>
 
-          <div className="flex justify-between py-2 px-5 mt-2">
-            <FormField
-              control={form.control}
-              name="translationTool"
-              render={({ field }) => (
-                <FormItem className="w-2/5 flex items-center gap-x-4">
-                  <FormLabel className="shrink-0">Translation Tool</FormLabel>
-                  <FormControl>
-                    <Select {...field}>
-                      <SelectTrigger className="!mt-0">
-                        <SelectValue placeholder="Language" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {
-                          TRANSLATION_LANGUAGES.map(languageInfo => (
-                            <SelectItem value={languageInfo.value}>
-                              {languageInfo.label}
-                            </SelectItem>
-                          ))
-                        }
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-
-            <FormField
-              control={form.control}
-              name="apiKey"
-              render={({ field }) => (
-                <FormItem className="w-2/5 flex items-center gap-x-4">
-                  <FormLabel className="shrink-0">API Key</FormLabel>
-                  <FormControl>
-                    <Input placeholder="API Key" className="!mt-0" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="flex justify-between py-2 px-5 mt-2">
+          <div className="flex justify-between py-2 px-5 mt-2 h-fit">
             <FormField
               control={form.control}
               name="sourceArticleUrl"
@@ -143,6 +99,7 @@ const TranslationSection = () => {
 
             <FormField
               control={form.control}
+              disabled={availableTranslationLanguages.length === 0}
               name="targetArticleLanguage"
               render={({ field }) => (
                 <FormItem className="w-2/5 flex items-center gap-x-4">
@@ -154,7 +111,7 @@ const TranslationSection = () => {
                       </SelectTrigger>
                       <SelectContent>
                         {
-                          TRANSLATION_LANGUAGES.map(languageInfo => (
+                          availableTranslationLanguages.map(languageInfo => (
                             <SelectItem value={languageInfo.value}>
                               {languageInfo.label}
                             </SelectItem>
@@ -169,36 +126,47 @@ const TranslationSection = () => {
             />
           </div>
 
-          <div className="flex items-stretch py-2 border h-full">
-            <FormField
-              control={form.control}
-              name="sourceArticleContent"
-              render={({ field }) => (
-                <FormItem className="w-1/2 flex items-center gap-x-4 px-2">
-                  <FormLabel className="shrink-0 sr-only">Content</FormLabel>
-                  <FormControl>
-                    <Textarea className="border-0" placeholder="Source article" {...field} rows={22} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className="flex items-stretch py-2 border-t h-full">
+            <div className="w-1/2">
+              <FormField
+                control={form.control}
+                name="sourceArticleContent"
+                render={({ field }) => (
+                  <FormItem className="flex items-center gap-x-4 border-b mx-2">
+                    <FormLabel className="shrink-0 sr-only">Content</FormLabel>
+                    <FormControl>
+                      <Textarea className="border-0 resize-none" placeholder="Source article" {...field} rows={22} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <span className="text-sm text-center inline-block w-full my-3">
+                Word Count <span className="font-bold">{watch('sourceArticleContent').length}</span>
+              </span>
+            </div>
 
-            <Separator orientation="vertical" className="border-slate-400 h-full" />
+            <Separator orientation="vertical" className="border-slate-400 h-auto w-px" />
 
-            <FormField
-              control={form.control}
-              name="translatedArticleContent"
-              render={({ field }) => (
-                <FormItem className="w-1/2 flex items-center gap-x-4 px-2">
-                  <FormLabel className="shrink-0 sr-only">Content</FormLabel>
-                  <FormControl>
-                    <Textarea className="border-0" placeholder="Translated article" {...field} rows={22} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="w-1/2">
+              <FormField
+                control={form.control}
+                name="translatedArticleContent"
+                render={({ field }) => (
+                  <FormItem className="flex items-center gap-x-4 border-b mx-2">
+                    <FormLabel className="shrink-0 sr-only">Content</FormLabel>
+                    <FormControl>
+                      <Textarea className="border-0 resize-none" placeholder="Translated article" {...field}
+                                rows={22} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <span className="text-sm text-center inline-block w-full my-3">
+                Word Count <span className="font-bold">{watch('translatedArticleContent').length}</span>
+              </span>
+            </div>
           </div>
         </form>
       </Form>

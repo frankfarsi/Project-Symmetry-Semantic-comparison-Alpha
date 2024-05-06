@@ -1,4 +1,4 @@
 export enum TranslationTool {
-	GOOGLE = "Google Translate",
-	DEEPL = "DeepL Translate"
+  GOOGLE = 'Google',
+  DEEPL = 'DeepL'
 }
