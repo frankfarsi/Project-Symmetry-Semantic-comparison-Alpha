@@ -1,16 +1,17 @@
-import { useCallback, useState } from 'react'
-import { ChevronRight, Info } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
-import { TranslationFormType } from '@/models/TranslationFormType'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { ChevronRight, Info } from 'lucide-react'
+import { useCallback, useState } from 'react'
+
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Separator } from '@/components/ui/separator'
+import { SelectData } from '@/models/SelectData'
 import { fetchArticle } from '@/services/fetchArticle'
 import { useAppContext } from '@/context/AppContext'
-import { SelectData } from '@/models/SelectData'
+import { TranslationFormType } from '@/models/TranslationFormType'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 
 const TRANSLATION_LANGUAGES = [
   { value: 'english', label: 'English' },
@@ -48,7 +49,6 @@ const TranslationSection = () => {
         sourceArticleUrl: data.sourceArticleUrl,
         targetLanguage: '',
       })
-      console.log(response.data)
       setValue('sourceArticleContent', response.data.sourceArticle.text)
       setAvailableTranslationLanguages(
         Object.entries(response.data.articleLanguages).map(([key, value]) => ({
@@ -92,7 +92,7 @@ const TranslationSection = () => {
                 <FormItem className="w-2/5 flex items-center gap-x-4">
                   <FormLabel className="shrink-0">Source Article URL</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter a URL" readOnly className="!mt-0" {...field} />
+                    <Input placeholder="Enter a URL" className="!mt-0" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,7 +149,7 @@ const TranslationSection = () => {
                 )}
               />
               <span className="text-sm text-center inline-block w-full my-3">
-                Word Count <span className="font-bold">{watch('sourceArticleContent').length}</span>
+                Word Count <span className="font-bold">{watch('sourceArticleContent').split(' ').length}</span>
               </span>
             </div>
 
@@ -171,15 +171,12 @@ const TranslationSection = () => {
                 )}
               />
               <span className="text-sm text-center inline-block w-full my-3">
-                Word Count <span className="font-bold">{watch('translatedArticleContent').length}</span>
+                Word Count <span className="font-bold">{watch('translatedArticleContent').split(' ').length}</span>
               </span>
             </div>
           </div>
         </form>
       </Form>
-      <div>
-
-      </div>
     </section>
   )
 }
