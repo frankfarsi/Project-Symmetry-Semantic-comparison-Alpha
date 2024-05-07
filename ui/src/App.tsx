@@ -1,8 +1,21 @@
-import type { Component } from "solid-js";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import ROUTES from '@/constants/ROUTES'
+import Layout from '@/components/Layout'
+import Home from '@/pages/Home'
+import Settings from '@/pages/Settings'
+import './App.css'
 
-const App: Component = () => {
+const App = () => {
   return (
-    <p class="underline underline-offset-1 text-4xl text-green-700 text-center py-20">Hello tailwind!</p>
+    <BrowserRouter>
+      <Routes>
+        <Route path={ROUTES.BASE} element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path={ROUTES.PROFILE} element={<div>Profile</div>} />
+          <Route path={ROUTES.SETTINGS} element={<Settings />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
