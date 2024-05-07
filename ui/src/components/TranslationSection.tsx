@@ -163,8 +163,12 @@ const TranslationSection = () => {
                   <FormItem className="flex items-center gap-x-4 border-b mx-2">
                     <FormLabel className="shrink-0 sr-only">Content</FormLabel>
                     <FormControl>
-                      <Textarea className="border-0 resize-none" readOnly placeholder="Translated article" {...field}
-                                rows={22} />
+                      <Textarea
+                        className="border-0 resize-none"
+                        readOnly
+                        placeholder="Translated article"
+                        {...field}
+                        rows={22} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
