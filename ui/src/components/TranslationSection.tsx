@@ -88,7 +88,7 @@ const TranslationSection = () => {
             </div>
             <div className="flex gap-x-2">
               <Button disabled={isLoading} type="button" variant="outline">Clear</Button>
-              <Button disabled={isLoading} variant="default" type="button">Translate</Button>
+              <Button disabled={isLoading} variant="default" type="submit">Translate</Button>
               <Button disabled className="flex gap-x-2">Compare <ChevronRight size={16} /></Button>
             </div>
           </div>
